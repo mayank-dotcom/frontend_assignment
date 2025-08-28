@@ -30,14 +30,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleInputChange = (key: keyof BollingerBandsSettings, value: any) => {
+  const handleInputChange = (key: keyof BollingerBandsSettings, value: string | number) => {
     onSettingsChange({
       ...settings,
       [key]: value
     });
   };
 
-  const handleStyleChange = (key: keyof BollingerBandsStyleSettings, value: any) => {
+  const handleStyleChange = (key: keyof BollingerBandsStyleSettings, value: string | number | boolean) => {
     onStyleSettingsChange({
       ...styleSettings,
       [key]: value

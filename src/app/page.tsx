@@ -17,7 +17,23 @@ export default function Home() {
   const [settings, setSettings] = useState<BollingerBandsSettings>(defaultBollingerBandsSettings);
   const [styleSettings, setStyleSettings] = useState<BollingerBandsStyleSettings>(defaultBollingerBandsStyleSettings);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [crosshairData, setCrosshairData] = useState<any>(null);
+  const [crosshairData, setCrosshairData] = useState<{
+    candle: {
+      timestamp: number;
+      open: number;
+      high: number;
+      low: number;
+      close: number;
+      volume: number;
+    };
+    bollinger: {
+      timestamp: number;
+      basis: number;
+      upper: number;
+      lower: number;
+    };
+    dataIndex: number;
+  } | null>(null);
   const [indicatorAdded, setIndicatorAdded] = useState(false);
 
   // Debug: Log sample data
@@ -117,7 +133,6 @@ export default function Home() {
               <Tooltip 
                 candle={crosshairData?.candle}
                 bollinger={crosshairData?.bollinger}
-                dataIndex={crosshairData?.dataIndex}
               />
             </div>
 

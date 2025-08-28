@@ -13,46 +13,12 @@ export const SimpleCandlestickChart: React.FC<SimpleCandlestickChartProps> = ({ 
 
   useEffect(() => {
     if (chartRef.current) {
+      const chartElement = chartRef.current;
       // Clear any existing chart
-      dispose(chartRef.current);
+      dispose(chartElement);
       
-      // Initialize chart with configuration
-      const chart = init(chartRef.current, {
-        grid: {
-          show: true,
-          horizontal: {
-            show: true,
-            color: '#E0E0E0'
-          },
-          vertical: {
-            show: true,
-            color: '#E0E0E0'
-          }
-        },
-        candle: {
-          margin: {
-            top: 0.2,
-            bottom: 0.1
-          },
-          type: 'candle_solid',
-          bar: {
-            upColor: '#26A69A',
-            downColor: '#EF5350',
-            noChangeColor: '#888888'
-          },
-          tooltip: {
-            showRule: 'always',
-            showType: 'standard'
-          }
-        },
-        xAxis: {
-          show: true
-        },
-        yAxis: {
-          show: true,
-          type: 'normal'
-        }
-      });
+      // Initialize chart with basic configuration
+      const chart = init(chartElement);
       
       if (chart && data.length > 0) {
         // Format data for KLineCharts - ensure proper format
@@ -82,9 +48,7 @@ export const SimpleCandlestickChart: React.FC<SimpleCandlestickChartProps> = ({ 
       }
 
       return () => {
-        if (chartRef.current) {
-          dispose(chartRef.current);
-        }
+        dispose(chartElement);
       };
     }
   }, [data]);

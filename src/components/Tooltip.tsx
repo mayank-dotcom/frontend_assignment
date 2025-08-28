@@ -7,10 +7,9 @@ import { BollingerBandsData } from '../utils/bollingerBands';
 interface TooltipProps {
   candle?: CandleData;
   bollinger?: BollingerBandsData;
-  dataIndex?: number;
 }
 
-export const Tooltip: React.FC<TooltipProps> = ({ candle, bollinger, dataIndex }) => {
+export const Tooltip: React.FC<TooltipProps> = ({ candle, bollinger }) => {
   if (!candle || !bollinger) {
     return (
       <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 min-w-[250px]">
