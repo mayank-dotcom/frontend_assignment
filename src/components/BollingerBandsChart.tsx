@@ -1,10 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
-import { init, dispose } from 'klinecharts';
-
-// Define Chart type to fix TypeScript issues
-type Chart = any;
+import { init, dispose, Chart } from 'klinecharts';
 import { CandleData } from '../data/sampleData';
 import { 
   BollingerBandsSettings, 
