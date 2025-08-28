@@ -78,7 +78,7 @@ export const BollingerBandsChart: React.FC<BollingerBandsChartProps> = ({
         setTimeout(() => {
           console.log('Chart container children:', chartElement.children.length);
           for (let i = 0; i < chartElement.children.length; i++) {
-            const child = chartElement.children[i];
+            const child = chartElement.children[i] as HTMLElement;
             console.log(`Child ${i}:`, child.tagName, child.className, {
               width: child.offsetWidth,
               height: child.offsetHeight,
