@@ -99,7 +99,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <div className="space-y-4">
               {/* Length */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-black mb-1">
                   Length
                 </label>
                 <input
@@ -114,7 +114,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
               {/* MA Type */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-black mb-1">
                   MA Type
                 </label>
                 <select
@@ -128,7 +128,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
               {/* StdDev Multiplier */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-black mb-1">
                   StdDev Multiplier
                 </label>
                 <input
@@ -144,7 +144,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
               {/* Source */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-black mb-1">
                   Source
                 </label>
                 <select
@@ -161,7 +161,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
               {/* Offset */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-black mb-1">
                   Offset
                 </label>
                 <input
@@ -180,9 +180,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <div className="space-y-4">
               {/* Basis Line */}
               <div className="border rounded-lg p-3">
-                <h3 className="font-medium text-gray-900 mb-2">Basis Line</h3>
+                <h3 className="font-medium text-black mb-2">Basis Line</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center">
+                  <label className="flex items-center text-black">
                     <input
                       type="checkbox"
                       checked={styleSettings.basisVisible}
@@ -201,14 +201,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     <select
                       value={styleSettings.basisStyle}
                       onChange={(e) => handleStyleChange('basisStyle', e.target.value)}
-                      className="flex-1 px-2 py-1 border rounded text-sm"
+                      className="flex-1 px-2 py-1 border rounded text-sm text-black"
                     >
                       <option value="solid">Solid</option>
                       <option value="dashed">Dashed</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">
+                    <label className="block text-xs text-black mb-1">
                       Line Width: {styleSettings.basisWidth}px
                     </label>
                     <input
@@ -226,9 +226,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
               {/* Upper Band */}
               <div className="border rounded-lg p-3">
-                <h3 className="font-medium text-gray-900 mb-2">Upper Band</h3>
+                <h3 className="font-medium text-black mb-2">Upper Band</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center">
+                  <label className="flex items-center text-black">
                     <input
                       type="checkbox"
                       checked={styleSettings.upperVisible}
@@ -247,14 +247,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     <select
                       value={styleSettings.upperStyle}
                       onChange={(e) => handleStyleChange('upperStyle', e.target.value)}
-                      className="flex-1 px-2 py-1 border rounded text-sm"
+                      className="flex-1 px-2 py-1 border rounded text-sm text-black"
                     >
                       <option value="solid">Solid</option>
                       <option value="dashed">Dashed</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">
+                    <label className="block text-xs text-black mb-1">
                       Line Width: {styleSettings.upperWidth}px
                     </label>
                     <input
@@ -272,9 +272,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
               {/* Lower Band */}
               <div className="border rounded-lg p-3">
-                <h3 className="font-medium text-gray-900 mb-2">Lower Band</h3>
+                <h3 className="font-medium text-black mb-2">Lower Band</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center">
+                  <label className="flex items-center text-black">
                     <input
                       type="checkbox"
                       checked={styleSettings.lowerVisible}
@@ -293,14 +293,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     <select
                       value={styleSettings.lowerStyle}
                       onChange={(e) => handleStyleChange('lowerStyle', e.target.value)}
-                      className="flex-1 px-2 py-1 border rounded text-sm"
+                      className="flex-1 px-2 py-1 border rounded text-sm text-black"
                     >
                       <option value="solid">Solid</option>
                       <option value="dashed">Dashed</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">
+                    <label className="block text-xs text-black mb-1">
                       Line Width: {styleSettings.lowerWidth}px
                     </label>
                     <input
@@ -318,9 +318,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
               {/* Background Fill */}
               <div className="border rounded-lg p-3">
-                <h3 className="font-medium text-gray-900 mb-2">Background Fill</h3>
+                <h3 className="font-medium text-black mb-2">Background Fill</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center">
+                  <label className="flex items-center text-black">
                     <input
                       type="checkbox"
                       checked={styleSettings.fillVisible}
@@ -337,7 +337,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                       className="w-8 h-8 border rounded"
                     />
                     <div className="flex-1">
-                      <label className="block text-xs text-gray-600 mb-1">
+                      <label className="block text-xs text-black mb-1">
                         Opacity: {Math.round(styleSettings.fillOpacity * 100)}%
                       </label>
                       <input
