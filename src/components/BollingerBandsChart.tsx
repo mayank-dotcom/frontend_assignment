@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
-import { init, dispose, Chart } from 'klinecharts';
+import { init, dispose } from 'klinecharts';
+
+// Define Chart type to fix TypeScript issues
+type Chart = any;
 import { CandleData } from '../data/sampleData';
 import { 
   BollingerBandsSettings, 
@@ -48,13 +51,49 @@ export const BollingerBandsChart: React.FC<BollingerBandsChartProps> = ({
     }));
   };
 
-  // Initialize chart
+  // Initialize chart - fixed version
   useEffect(() => {
     if (chartRef.current && !chart) {
+      console.log('Initializing chart...');
       const chartElement = chartRef.current;
+      
+      // Clear any existing content
+      chartElement.innerHTML = '';
+      
+      // Ensure the element has dimensions
+      const dimensions = {
+        width: chartElement.offsetWidth,
+        height: chartElement.offsetHeight,
+        clientWidth: chartElement.clientWidth,
+        clientHeight: chartElement.clientHeight
+      };
+      console.log('Chart element dimensions:', dimensions);
+      console.log('Width:', dimensions.width, 'Height:', dimensions.height);
+      
+      // Initialize chart with minimal configuration - same as working test chart
       const kLineChart = init(chartElement);
+      
       if (kLineChart) {
+        console.log('Chart initialized successfully');
         setChart(kLineChart);
+        
+        // Check what's inside the chart container after a delay
+        setTimeout(() => {
+          console.log('Chart container children:', chartElement.children.length);
+          for (let i = 0; i < chartElement.children.length; i++) {
+            const child = chartElement.children[i];
+            console.log(`Child ${i}:`, child.tagName, child.className, {
+              width: child.offsetWidth,
+              height: child.offsetHeight,
+              style: child.getAttribute('style')
+            });
+          }
+          
+          kLineChart.resize();
+          console.log('Chart resized');
+        }, 100);
+      } else {
+        console.error('Failed to initialize chart');
       }
 
       return () => {
@@ -63,78 +102,57 @@ export const BollingerBandsChart: React.FC<BollingerBandsChartProps> = ({
         }
       };
     }
-  }, [chart]);
+  }, []); // Remove chart dependency to prevent recreation
 
   // Update data when it changes
   useEffect(() => {
     if (chart && data.length > 0) {
       const formattedData = formatCandleData(data);
       console.log('Applying data to chart:', formattedData.slice(0, 5)); // Debug log
-      chart.applyNewData(formattedData);
+      console.log('Formatted data length:', formattedData.length);
+      
+      try {
+        chart.applyNewData(formattedData);
+        console.log('Data applied successfully');
+        
+        // Force a redraw
+        setTimeout(() => {
+          chart.resize();
+          console.log('Chart resized after data application');
+          
+          // Check if chart has rendered content
+          setTimeout(() => {
+            console.log('Final check - Chart container children:', chartRef.current?.children.length || 0);
+          }, 200);
+        }, 100);
+      } catch (error) {
+        console.error('Error applying data:', error);
+      }
     }
   }, [chart, data]);
 
-  // Add Bollinger Bands using built-in indicator if available, or create custom overlay
+  // Add Bollinger Bands indicator after chart is working
   useEffect(() => {
     if (chart && data.length > 0) {
-      console.log('Adding Bollinger Bands...'); // Debug
+      console.log('Chart should now show candlesticks.');
       
-      try {
-        // First, try to use the built-in Bollinger Bands indicator
-        chart.removeIndicator('candle_pane', 'BOLL');
-        const result = chart.createIndicator('BOLL', true, { 
-          id: 'BOLL'
-        });
-        
-        if (result) {
-          console.log('Built-in BOLL indicator created:', result);
+      // Add Bollinger Bands after ensuring chart is rendered
+      setTimeout(() => {
+        if (chartRef.current?.children.length && chartRef.current.children.length > 0) {
+          console.log('Chart has rendered content, adding Bollinger Bands...');
+          try {
+            // Try the simplest Bollinger Bands approach
+            chart.createIndicator('BOLL', false, { id: 'main' });
+            console.log('Bollinger Bands added successfully');
+          } catch (error) {
+            console.log('Bollinger Bands failed, but chart should still work:', error);
+          }
         } else {
-          console.log('Built-in BOLL not available, trying custom approach...');
-          
-          // Calculate Bollinger Bands data
-          const bollingerData = calculateBollingerBands(data, settings);
-          console.log('Calculated BB data sample:', bollingerData.slice(-5));
-          
-          // Create overlay graphics directly
-          chart.removeOverlay('bb_overlay');
-          
-          // Create custom overlay with lines
-          const overlayData = data.map((candle, index) => {
-            const bb = bollingerData[index];
-            return {
-              timestamp: candle.timestamp,
-              points: [
-                { timestamp: candle.timestamp, value: bb.upper },
-                { timestamp: candle.timestamp, value: bb.basis },
-                { timestamp: candle.timestamp, value: bb.lower }
-              ]
-            };
-          }).filter(item => 
-            !isNaN(item.points[0].value) && 
-            !isNaN(item.points[1].value) && 
-            !isNaN(item.points[2].value)
-          );
-          
-          console.log('Overlay data prepared:', overlayData.length, 'points');
-          
-          // Add the overlay
-          chart.createOverlay({
-            name: 'bb_overlay',
-            points: overlayData.flatMap(item => item.points),
-            styles: {
-              line: {
-                color: styleSettings.basisColor,
-                size: styleSettings.basisWidth
-              }
-            }
-          });
+          console.log('Chart container still empty, skipping Bollinger Bands');
         }
-        
-      } catch (error) {
-        console.error('Error adding Bollinger Bands:', error);
-      }
+      }, 1000);
     }
-  }, [chart, data, settings, styleSettings]);
+  }, [chart, data]);
 
   // Note: Crosshair functionality commented out due to KLineCharts API compatibility
   // Can be re-enabled once the correct action type is determined
@@ -146,10 +164,25 @@ export const BollingerBandsChart: React.FC<BollingerBandsChartProps> = ({
   }, [onCrosshairChange]);
 
   return (
-    <div 
-      ref={chartRef} 
-      className="w-full h-full min-h-[500px] border border-gray-200 rounded-lg"
-      style={{ backgroundColor: '#ffffff' }}
-    />
+    <div className="relative w-full h-[500px] bg-white">
+      <div 
+        ref={chartRef} 
+        className="w-full h-full border border-gray-300 rounded-lg"
+        style={{ 
+          backgroundColor: '#ffffff',
+          width: '100%',
+          height: '500px',
+          position: 'relative',
+          display: 'block',
+          minHeight: '500px',
+          overflow: 'hidden'
+        }}
+      />
+      {!chart && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
+          <p className="text-gray-600">Loading chart...</p>
+        </div>
+      )}
+    </div>
   );
 };

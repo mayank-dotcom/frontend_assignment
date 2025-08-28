@@ -36,13 +36,18 @@ export default function Home() {
   } | null>(null);
   const [indicatorAdded, setIndicatorAdded] = useState(false);
 
-  // Debug: Log sample data
+  // Debug: Log sample data and state changes
   React.useEffect(() => {
     console.log('Sample data length:', sampleData.length);
     console.log('First 3 candles:', sampleData.slice(0, 3));
   }, []);
 
+  React.useEffect(() => {
+    console.log('indicatorAdded state changed to:', indicatorAdded);
+  }, [indicatorAdded]);
+
   const handleAddIndicator = () => {
+    console.log('Add indicator clicked, setting indicatorAdded to true');
     setIndicatorAdded(true);
   };
 
